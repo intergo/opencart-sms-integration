@@ -1,0 +1,22 @@
+{{ header }}{{ column_left }}
+<head>
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Outlined" rel="stylesheet">
+    <script type="module" crossorigin src="https://integration.sms.to/component_bulk_sms/{{ script_file }}"></script>
+    <link rel="stylesheet" href="https://integration.sms.to/component_bulk_sms/{{ css_file }}" />
+</head>
+<div id="content">
+    <div class="page-header">
+        <div class="container-fluid">
+            <h1>{{ heading_title }}</h1>
+            <ol class="breadcrumb">
+                {% for breadcrumb in breadcrumbs %}
+                <li class="breadcrumb-item"><a href="{{ breadcrumb . href }}">{{ breadcrumb . text }}</a></li>
+                {% endfor %}
+            </ol>
+        </div>
+    </div>
+    <div class="container-fluid">
+        <div id="app_smsto" data-getParams="{{ route_params }}" data-callSmsto="{{ route_smsto }}" />
+    </div>
+</div>
+{{ footer }}
