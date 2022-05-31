@@ -27,20 +27,6 @@ class Send extends \Opencart\System\Engine\Controller
 		$data['column_left'] = $this->load->controller('common/column_left');
 		$data['footer'] = $this->load->controller('common/footer');
 
-		$this->document->setTitle($this->language->get('heading_title'));
-		$ch = curl_init();
-		ob_start();
-		curl_setopt($ch, CURLOPT_URL, 'https://integration.sms.to/component_bulk_sms/manifest.json');
-		$response = curl_exec($ch);
-		curl_close($ch);
-		$response = ob_get_clean();
-		$manifest = json_decode($response, true);
-		
-		$data['script_file'] = $manifest['src/main.ts']['file'];
-		$data['css_file'] = $manifest['src/main.ts']['css'][0];
-		$data['route_params'] =  $this->url->link('extension/smsto/smsto/send|params', 'user_token=' . $this->session->data['user_token']);
-		$data['route_smsto'] =  $this->url->link('extension/smsto/smsto/send|callsmsto', 'user_token=' . $this->session->data['user_token']);
-
 		$this->response->setOutput($this->load->view('extension/smsto/smsto/send', $data));
 	}
 
@@ -54,13 +40,21 @@ class Send extends \Opencart\System\Engine\Controller
 		curl_close($ch);
 		$response = ob_get_clean();
 		$manifest = json_decode($response, true);
-		
+
 		$data['script_file'] = $manifest['src/main.ts']['file'];
 		$data['css_file'] = $manifest['src/main.ts']['css'][0];
 		$data['route_params'] =  $this->url->link('extension/smsto/smsto/send|params', 'user_token=' . $this->session->data['user_token']);
 		$data['route_smsto'] =  $this->url->link('extension/smsto/smsto/send|callsmsto', 'user_token=' . $this->session->data['user_token']);
 
-		$this->response->setOutput($this->load->view('extension/smsto/smsto/vue'), $data);
+		echo '
+		<head>
+			<link href="https://fonts.googleapis.com/icon?family=Material+Icons+Outlined" rel="stylesheet">
+			<script type="module" crossorigin src="https://integration.sms.to/component_bulk_sms/'.$data['script_file'].'"></script>
+    		<link rel="stylesheet" href="https://integration.sms.to/component_bulk_sms/'.$data['css_file'].'" />
+		</head>
+		<body>
+			<div id="app_smsto" data-getParams="'.$data['route_params'].'" data-callSmsto="'.$data['route_smsto'].'" />
+		</body>
+		';
 	}
-
 }
