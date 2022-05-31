@@ -29,7 +29,7 @@ class Settings extends \Opencart\System\Engine\Controller {
 		$data['module_smsto_status'] = $this->config->get('module_smsto_status');
 		$data['module_smsto_api_key'] = $this->config->get('module_smsto_api_key');
 		$data['module_smsto_show_reports'] = $this->config->get('module_smsto_show_reports');
-		$data['module_smsto_show_contacts'] = $this->config->get('module_smsto_show_contacts');
+		$data['module_smsto_show_people'] = $this->config->get('module_smsto_show_people');
 
 		$data['header'] = $this->load->controller('common/header');
 		$data['column_left'] = $this->load->controller('common/column_left');

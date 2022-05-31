@@ -2,6 +2,8 @@
 
 namespace Opencart\Admin\Controller\Extension\Smsto\Smsto;
 
+use Opencart\System\Library\Url;
+
 class Send extends \Opencart\System\Engine\Controller
 {
 	public function index(): void
@@ -41,10 +43,11 @@ class Send extends \Opencart\System\Engine\Controller
 		$response = ob_get_clean();
 		$manifest = json_decode($response, true);
 
+		$url = new Url(HTTP_CATALOG, $this->config->get('config_secure') ?? HTTP_CATALOG );
 		$data['script_file'] = $manifest['src/main.ts']['file'];
 		$data['css_file'] = $manifest['src/main.ts']['css'][0];
-		$data['route_params'] =  $this->url->link('extension/smsto/smsto/send|params', 'user_token=' . $this->session->data['user_token']);
-		$data['route_smsto'] =  $this->url->link('extension/smsto/smsto/send|callsmsto', 'user_token=' . $this->session->data['user_token']);
+		$data['route_params'] =  $url->link('extension/smsto/smsto/params');
+		$data['route_smsto'] =  $url->link('extension/smsto/smsto/call');
 
 		echo '
 		<head>
