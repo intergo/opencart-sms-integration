@@ -1,5 +1,5 @@
 <?php
-namespace Opencart\Admin\Controller\Smsto;
+namespace Opencart\Admin\Controller\Extension\Smsto\Smsto;
 class Send extends \Opencart\System\Engine\Controller {
 	public function index(): void {
 		$this->load->language('customer/customer');
