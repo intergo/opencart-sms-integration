@@ -4,7 +4,7 @@ class Settings extends \Opencart\System\Engine\Controller {
 	public function index(): void {
 		$this->load->language('extension/smsto/module/settings');
 
-		$this->document->setTitle($this->language->get('heading_title'));
+		$this->document->setTitle($this->language->get('smsto_heading_title'));
 
 		$data['breadcrumbs'] = [];
 
@@ -19,7 +19,7 @@ class Settings extends \Opencart\System\Engine\Controller {
 		];
 
 		$data['breadcrumbs'][] = [
-			'text' => $this->language->get('heading_title'),
+			'text' => $this->language->get('smsto_heading_title'),
 			'href' => $this->url->link('extension/smsto/module/settings', 'user_token=' . $this->session->data['user_token'])
 		];
 

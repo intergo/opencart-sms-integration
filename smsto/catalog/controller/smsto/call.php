@@ -9,6 +9,7 @@ class Call extends \Opencart\System\Engine\Controller {
 		$payload = $_GET['payload'] ?? json_encode([]);
 		
 		$this->load->model('extension/smsto/smsto/call');
-		$this->model_extension_smsto_smsto_call->callSmsto($api_key, $method, $url, $payload);
+		$response = $this->model_extension_smsto_smsto_call->callSmsto($api_key, $method, $url, $payload);
+		$this->response->setOutput($response);
 	}
 }

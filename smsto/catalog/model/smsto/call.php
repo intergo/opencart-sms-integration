@@ -17,9 +17,9 @@ class Call extends \Opencart\System\Engine\Model
          * @param string $method
          * @param string $url
          * @param string|array|null $payload
-         * @return void
+         * @return string
          */
-        public function callSmsto(string $api_key, string $method, string $url, $payload = null): void
+        public function callSmsto(string $api_key, string $method, string $url, $payload = null): string
         {
                 $hasApiKey = 0 !== strlen($api_key);
                 if (!$hasApiKey) {
@@ -51,6 +51,6 @@ class Call extends \Opencart\System\Engine\Model
 
                 $response = curl_exec($ch);
                 curl_close($ch);
-                echo $response;
+                return $response;
         }
 }

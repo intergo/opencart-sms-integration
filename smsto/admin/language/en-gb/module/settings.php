@@ -1,6 +1,6 @@
 <?php
 // Heading
-$_['heading_title']    = 'SMSto';
+$_['smsto_heading_title']    = 'SMSto';
 
 // Text
 $_['text_extension']   = 'Extensions';

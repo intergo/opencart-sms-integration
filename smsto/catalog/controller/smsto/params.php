@@ -11,6 +11,6 @@ class Params extends \Opencart\System\Engine\Controller {
 				"show_people" => $this->config->get('module_smsto_show_people')
 			]
 		];
-		echo json_encode($data);
+		$this->response->setOutput(json_encode($data));
 	}
 }
