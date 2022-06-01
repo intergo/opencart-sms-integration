@@ -66,6 +66,12 @@ class Settings extends \Opencart\System\Engine\Controller
 
 	public function install(): void
 	{
+		// Fix permissions
+		$this->load->model('user/user_group');
+		$this->model_user_user_group->addPermission($this->user->getGroupId(), 'access', 'extension/smsto/smsto/send');
+		$this->model_user_user_group->addPermission($this->user->getGroupId(), 'modify', 'extension/smsto/smsto/send');
+
+		// Add menu in left column
 		$path = __DIR__ . '/../../../../../admin/controller/common/column_left.php';
 		$search = 'return $this->load->view(\'common/column_left\', $data);';
 		$replace = '
@@ -83,10 +89,17 @@ class Settings extends \Opencart\System\Engine\Controller
 		if (file_exists($path)) {
 			$this->replaceInFile($search, $replace, $path);
 		}
+
 	}
 
 	public function uninstall(): void
 	{
+		// Fix permissions
+		$this->load->model('user/user_group');
+		$this->model_user_user_group->removePermission($this->user->getGroupId(), 'access', 'extension/smsto/smsto/send');
+		$this->model_user_user_group->removePermission($this->user->getGroupId(), 'modify', 'extension/smsto/smsto/send');
+
+		// Add menu in left column
 		$path = __DIR__ . '/../../../../../admin/controller/common/column_left.php';
 		$replace = 'return $this->load->view(\'common/column_left\', $data);';
 		$search = '
