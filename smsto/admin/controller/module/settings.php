@@ -1,7 +1,11 @@
 <?php
+
 namespace Opencart\Admin\Controller\Extension\Smsto\Module;
-class Settings extends \Opencart\System\Engine\Controller {
-	public function index(): void {
+
+class Settings extends \Opencart\System\Engine\Controller
+{
+	public function index(): void
+	{
 		$this->load->language('extension/smsto/module/settings');
 
 		$this->document->setTitle($this->language->get('smsto_heading_title'));
@@ -38,7 +42,8 @@ class Settings extends \Opencart\System\Engine\Controller {
 		$this->response->setOutput($this->load->view('extension/smsto/module/settings', $data));
 	}
 
-	public function save(): void {
+	public function save(): void
+	{
 		$this->load->language('extension/smsto/module/settings');
 
 		$json = [];
@@ -57,5 +62,60 @@ class Settings extends \Opencart\System\Engine\Controller {
 
 		$this->response->addHeader('Content-Type: application/json');
 		$this->response->setOutput(json_encode($json));
+	}
+
+	public function install(): void
+	{
+		$path = __DIR__ . '/../../../../../admin/controller/common/column_left.php';
+		$search = 'return $this->load->view(\'common/column_left\', $data);';
+		$replace = '
+		// SMSto
+		$data[\'menus\'][] = [
+			\'id\'       => \'menu-smsto\',
+			\'icon\'	   => \'fas fa-comment\',
+			\'name\'	   => \'SMSto\',
+			\'href\'     => $this->url->link(\'extension/smsto/smsto/send\', \'user_token=\' . $this->session->data[\'user_token\']),
+			\'children\' => []
+		];
+
+		return $this->load->view(\'common/column_left\', $data);
+		';
+		if (file_exists($path)) {
+			$this->replaceInFile($search, $replace, $path);
+		}
+	}
+
+	public function uninstall(): void
+	{
+		$path = __DIR__ . '/../../../../../admin/controller/common/column_left.php';
+		$replace = 'return $this->load->view(\'common/column_left\', $data);';
+		$search = '
+		// SMSto
+		$data[\'menus\'][] = [
+			\'id\'       => \'menu-smsto\',
+			\'icon\'	   => \'fas fa-comment\',
+			\'name\'	   => \'SMSto\',
+			\'href\'     => $this->url->link(\'extension/smsto/smsto/send\', \'user_token=\' . $this->session->data[\'user_token\']),
+			\'children\' => []
+		];
+
+		return $this->load->view(\'common/column_left\', $data);
+		';
+		if (file_exists($path)) {
+			$this->replaceInFile($search, $replace, $path);
+		}
+	}
+
+	/**
+	 * Replace a given string within a given file.
+	 *
+	 * @param  string  $search
+	 * @param  string  $replace
+	 * @param  string  $path
+	 * @return void
+	 */
+	protected function replaceInFile($search, $replace, $path)
+	{
+		file_put_contents($path, str_replace($search, $replace, file_get_contents($path)));
 	}
 }
