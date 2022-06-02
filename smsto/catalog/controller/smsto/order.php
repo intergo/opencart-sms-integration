@@ -284,16 +284,16 @@ class Order extends \Opencart\System\Engine\Controller
 
         $this->load->model('extension/smsto/smsto/call');
         $api_key = $this->config->get('module_smsto_api_key');
-        $payload = json_encode([
+        $payload = [
             'to' => $data['telephone'],
             'sender_id' => $this->config->get('module_smsto_sender_id'),
             'message' => $this->load->view('extension/smsto/order/order_invoice', $data)
-        ]);
+        ];
         $this->model_extension_smsto_smsto_call->callSmsto(
             $api_key,
             'get',
             'https://api.sms.to/sms/send',
-            $payload
+            json_encode($payload)
         );
 
         $admin_phone = $this->config->get('module_smsto_phone');
@@ -303,7 +303,7 @@ class Order extends \Opencart\System\Engine\Controller
                 $api_key,
                 'get',
                 'https://api.sms.to/sms/send',
-                $payload
+                json_encode($payload)
             );
         }
     }
