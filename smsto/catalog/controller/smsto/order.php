@@ -6,10 +6,10 @@ class Order extends \Opencart\System\Engine\Controller
 {
     public function index(string &$route, array &$args)
     {
-        if (! $this->config->get('module_smsto_status')) {
+        if (!$this->config->get('module_smsto_status')) {
             return;
         }
-        
+
         if (isset($args[0])) {
             $order_id = $args[0];
         } else {
@@ -285,17 +285,27 @@ class Order extends \Opencart\System\Engine\Controller
         $this->load->model('extension/smsto/smsto/call');
         $api_key = $this->config->get('module_smsto_api_key');
         $payload = json_encode([
-            'to' => "+35799596247",
+            'to' => $data['telephone'],
             'sender_id' => $this->config->get('module_smsto_sender_id'),
             'message' => $this->load->view('extension/smsto/order/order_invoice', $data)
         ]);
-        $response = $this->model_extension_smsto_smsto_call->callSmsto(
+        $this->model_extension_smsto_smsto_call->callSmsto(
             $api_key,
             'get',
             'https://api.sms.to/sms/send',
             $payload
         );
-        echo $response;die;
+
+        $admin_phone = $this->config->get('module_smsto_phone');
+        if (!empty($admin_phone)) {
+            $payload['to'] = $admin_phone;
+            $this->model_extension_smsto_smsto_call->callSmsto(
+                $api_key,
+                'get',
+                'https://api.sms.to/sms/send',
+                $payload
+            );
+        }
     }
 
     public function edit(array $order_info, int $order_status_id, string $comment, bool $notify): void
@@ -371,5 +381,4 @@ class Order extends \Opencart\System\Engine\Controller
             $payload
         );
     }
-
 }

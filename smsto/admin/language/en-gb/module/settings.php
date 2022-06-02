@@ -14,7 +14,7 @@ $_['entry_api_key_desc']     = 'To make successful API requests, you need a <a h
 $_['entry_sender_id']     = 'Sender';
 $_['entry_sender_id_desc']     = 'The displayed value of who sent the message <a href="https://intergo.freshdesk.com/a/solutions/articles/43000513909" target="_blank">More info</a>';
 $_['entry_phone']     = 'Phone';
-$_['entry_phone_desc']     = 'The phone to receive the SMS notifications. Please add a full number e.g. +35799999999999';
+$_['entry_phone_desc']     = 'The phone to receive the SMS notifications upon new orders. Please add a full number e.g. +35799999999999, or leave empty if you do not want to receive notifications when a new order is placed.';
     
 $_['entry_show_reports']     = 'Show Reports';
 $_['entry_show_people']     = 'Show Contacts & Lists';
