@@ -43,6 +43,27 @@
                         </div>
                     </div>
                     <div class="row mb-3">
+                        <label for="input-module_smsto_sender_id"
+                            class="col-sm-2 col-form-label">{{ entry_sender_id }}</label>
+                        <div class="col-sm-10">
+                            <input type="text" name="module_smsto_sender_id" value="{{ module_smsto_sender_id }}"
+                                id="input-module_smsto_sender_id" class="form-control" />
+                            <div id="error-module_smsto_sender_id" class="invalid-feedback"></div>
+                            <small>{{ entry_sender_id_desc }}</small>
+                        </div>
+                    </div>
+                    <div class="row mb-3">
+                        <label for="input-module_smsto_phone"
+                            class="col-sm-2 col-form-label">{{ entry_phone }}</label>
+                        <div class="col-sm-10">
+                            <input type="tel" name="module_smsto_phone" value="{{ module_smsto_phone }}"
+                            placeholder="+35799999999999"
+                                id="input-module_smsto_phone" class="form-control" />
+                            <div id="error-module_smsto_phone" class="invalid-feedback"></div>
+                            <small>{{ entry_phone_desc }}</small>
+                        </div>
+                    </div>
+                    <div class="row mb-3">
                         <label for="input-module_smsto_show_reports"
                             class="col-sm-2 col-form-label">{{ entry_show_reports }}</label>
                         <div class="col-sm-10">

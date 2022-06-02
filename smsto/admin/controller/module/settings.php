@@ -32,6 +32,8 @@ class Settings extends \Opencart\System\Engine\Controller
 
 		$data['module_smsto_status'] = $this->config->get('module_smsto_status');
 		$data['module_smsto_api_key'] = $this->config->get('module_smsto_api_key');
+		$data['module_smsto_sender_id'] = $this->config->get('module_smsto_sender_id');
+		$data['module_smsto_phone'] = $this->config->get('module_smsto_phone');
 		$data['module_smsto_show_reports'] = $this->config->get('module_smsto_show_reports');
 		$data['module_smsto_show_people'] = $this->config->get('module_smsto_show_people');
 
@@ -66,6 +68,10 @@ class Settings extends \Opencart\System\Engine\Controller
 
 	public function install(): void
 	{
+		// Register events
+		$this->load->model('setting/event');
+		$this->model_setting_event->addEvent('smsto_order_alert', 'SMSto order alert', 'catalog/model/checkout/order/addHistory/before', 'extension/smsto/smsto/order', true, 1);
+
 		// Fix permissions
 		$this->load->model('user/user_group');
 		$this->model_user_user_group->addPermission($this->user->getGroupId(), 'access', 'extension/smsto/smsto/send');
@@ -94,6 +100,10 @@ class Settings extends \Opencart\System\Engine\Controller
 
 	public function uninstall(): void
 	{
+		// remove events
+		$this->load->model('setting/event');
+		$this->model_setting_event->deleteEventByCode('smsto_order_alert');
+
 		// Fix permissions
 		$this->load->model('user/user_group');
 		$this->model_user_user_group->removePermission($this->user->getGroupId(), 'access', 'extension/smsto/smsto/send');
