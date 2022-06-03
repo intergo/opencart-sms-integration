@@ -22,7 +22,22 @@ class Send extends \Opencart\System\Engine\Controller
 			'href' => $this->url->link('extension/smsto/smsto/send', 'user_token=' . $this->session->data['user_token'])
 		];
 
-		$data['vue_url'] = $this->url->link('extension/smsto/smsto/send|vue', 'user_token=' . $this->session->data['user_token']);
+		$data['active_tag'] = "single";
+		$data['to'] = '';
+		if (isset($this->request->get['customer_ids'])) {
+			//$customer_ids = urlencode(html_entity_decode($this->request->get['customer_ids'], ENT_QUOTES, 'UTF-8'));
+			$customer_ids = explode(',', $this->request->get['customer_ids']);
+			$data['to'] = '';
+			$this->load->model('customer/customer');
+			foreach ($customer_ids as $customer_id) {
+				$customer = $this->model_customer_customer->getCustomer($customer_id);
+				$data['to'] .= $customer['telephone'] . PHP_EOL;
+			}
+			$data['to'] = urlencode($data['to']);
+			$data['vue_url'] = $this->url->link('extension/smsto/smsto/send|vue', 'user_token=' . $this->session->data['user_token'] . '&active_tab=pasted&to=' . $data['to']);
+		} else {
+			$data['vue_url'] = $this->url->link('extension/smsto/smsto/send|vue', 'user_token=' . $this->session->data['user_token']);
+		}
 
 		$data['user_token'] = $this->session->data['user_token'];
 		$data['header'] = $this->load->controller('common/header');
@@ -48,6 +63,8 @@ class Send extends \Opencart\System\Engine\Controller
 		$data['css_file'] = $manifest['src/main.ts']['css'][0];
 		$data['route_params'] =  $url->link('extension/smsto/smsto/params');
 		$data['route_smsto'] =  $url->link('extension/smsto/smsto/call');
+		$data['active_tab'] = $this->request->get['active_tab'] ?? 'single';
+		$data['to'] = $this->request->get['to'] ?? '';
 
 		echo '
 		<head>
@@ -56,7 +73,7 @@ class Send extends \Opencart\System\Engine\Controller
     		<link rel="stylesheet" href="https://integration.sms.to/component_bulk_sms/'.$data['css_file'].'" />
 		</head>
 		<body>
-			<div id="app_smsto" data-getParams="'.$data['route_params'].'" data-callSmsto="'.$data['route_smsto'].'" />
+			<div id="app_smsto" data-getParams="'.$data['route_params'].'" data-callSmsto="'.$data['route_smsto'].'" data-active_tab="'.$data['active_tab'].'" data-to="'.$data['to'].'"/>
 		</body>
 		';
 	}

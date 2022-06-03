@@ -96,6 +96,49 @@ class Settings extends \Opencart\System\Engine\Controller
 			$this->replaceInFile($search, $replace, $path);
 		}
 
+		// Add button send from customer.twig
+		$path = __DIR__ . '/../../../../../admin/view/template/customer/customer.twig';
+		$search = '<div class="float-end">';
+		$replace = '
+		<div class="float-end">
+        	<button type="button" data-bs-toggle="tooltip" title="SMS" id="button-smsto" class="btn btn-light"><i class="fas fa-comment"></i></button>
+		';
+		if (file_exists($path)) {
+			$this->replaceInFile($search, $replace, $path);
+		}
+
+		// Add js send from customer.twig
+		$path = __DIR__ . '/../../../../../admin/view/template/customer/customer.twig';
+		$search = '//--></script>';
+		$replace = '
+		$(\'#button-smsto\').on(\'click\', function() {
+  
+			url = \'index.php?route=extension/smsto/smsto/send&user_token={{ user_token }}\';
+		
+			let ids = \'\';
+			var selected = $(\'input[name*=\\\'selected\\\']\');    
+			for(var i=0;i<selected.length;i++)
+			{
+				if(selected[i].checked===true)
+				{
+					ids = ids + selected[i].value + \',\';
+				}
+			}
+			ids = ids.slice(0, -1);
+			if (ids == \'\') {
+			  return;
+			}
+			url += \'&customer_ids=\' + encodeURIComponent(ids);
+		
+			$(location).attr(\'href\', url);
+		});
+		
+		//--></script>
+		';
+		if (file_exists($path)) {
+			$this->replaceInFile($search, $replace, $path);
+		}
+
 	}
 
 	public function uninstall(): void
@@ -109,7 +152,7 @@ class Settings extends \Opencart\System\Engine\Controller
 		$this->model_user_user_group->removePermission($this->user->getGroupId(), 'access', 'extension/smsto/smsto/send');
 		$this->model_user_user_group->removePermission($this->user->getGroupId(), 'modify', 'extension/smsto/smsto/send');
 
-		// Add menu in left column
+		// Remove menu in left column
 		$path = __DIR__ . '/../../../../../admin/controller/common/column_left.php';
 		$replace = 'return $this->load->view(\'common/column_left\', $data);';
 		$search = '
@@ -123,6 +166,49 @@ class Settings extends \Opencart\System\Engine\Controller
 		];
 
 		return $this->load->view(\'common/column_left\', $data);
+		';
+		if (file_exists($path)) {
+			$this->replaceInFile($search, $replace, $path);
+		}
+
+		// Remove button send from customer.twig
+		$path = __DIR__ . '/../../../../../admin/view/template/customer/customer.twig';
+		$replace = '<div class="float-end">';
+		$search = '
+		<div class="float-end">
+        	<button type="button" data-bs-toggle="tooltip" title="SMS" id="button-smsto" class="btn btn-light"><i class="fas fa-comment"></i></button>
+		';
+		if (file_exists($path)) {
+			$this->replaceInFile($search, $replace, $path);
+		}
+
+		// Remove js send from customer.twig
+		$path = __DIR__ . '/../../../../../admin/view/template/customer/customer.twig';
+		$replace = '//--></script>';
+		$search = '
+		$(\'#button-smsto\').on(\'click\', function() {
+  
+			url = \'index.php?route=extension/smsto/smsto/send&user_token={{ user_token }}\';
+		
+			let ids = \'\';
+			var selected = $(\'input[name*=\\\'selected\\\']\');    
+			for(var i=0;i<selected.length;i++)
+			{
+				if(selected[i].checked===true)
+				{
+					ids = ids + selected[i].value + \',\';
+				}
+			}
+			ids = ids.slice(0, -1);
+			if (ids == \'\') {
+			  return;
+			}
+			url += \'&customer_ids=\' + encodeURIComponent(ids);
+		
+			$(location).attr(\'href\', url);
+		});
+		
+		//--></script>
 		';
 		if (file_exists($path)) {
 			$this->replaceInFile($search, $replace, $path);
