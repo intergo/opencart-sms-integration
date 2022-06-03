@@ -3,7 +3,7 @@
 ## Developer notes
 
 This is the source code for SMSto integration extension for OpenCart. 
-Detailed documentation: 
+Detailed documentation: https://intergo.atlassian.net/wiki/spaces/WOBS/pages/2241527809/OpenCart+-+SMS+Integration+Module
 
 ### Compatibility
 
