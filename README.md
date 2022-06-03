@@ -12,7 +12,7 @@ OpenCart Version 4.0.0.0
 ### How to build
 
 To build ocmod zip file run command `./build.sh`
-When creating a new release upload the file **smsto.ocmod.zip** in bin files.
+When creating a new release upload the file **smsto.ocmod.zip** in section _Attach binaries by dropping them here or selecting them._
 
 To install extension upload file smsto.ocmod.zip found in release in OpenCart Extension Installer.
 ![image](https://user-images.githubusercontent.com/5654203/171782969-e2b85211-d3f6-4b0b-b0e9-20dfd277176c.png)
