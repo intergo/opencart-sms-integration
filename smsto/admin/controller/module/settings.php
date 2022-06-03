@@ -182,7 +182,7 @@ class Settings extends \Opencart\System\Engine\Controller
 			$this->replaceInFile($search, $replace, $path);
 		}
 
-		// Remove js send from customer.twig
+		// Remove js send from customer.twig 
 		$path = __DIR__ . '/../../../../../admin/view/template/customer/customer.twig';
 		$replace = '//--></script>';
 		$search = '
