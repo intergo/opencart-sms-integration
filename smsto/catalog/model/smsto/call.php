@@ -42,6 +42,7 @@ class Call extends \Opencart\System\Engine\Model
                 curl_setopt($ch, CURLOPT_HTTPHEADER, [
                         "Authorization: Bearer $api_key",
                         'Content-Type: application/json',
+                        'X-Smsto-Integration-Name: opencart',
                 ]);
 
                 if ($method != 'GET') {
