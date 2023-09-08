@@ -70,7 +70,16 @@ class Settings extends \Opencart\System\Engine\Controller
 	{
 		// Register events
 		$this->load->model('setting/event');
-		$this->model_setting_event->addEvent('smsto_order_alert', 'SMSto order alert', 'catalog/model/checkout/order/addHistory/before', 'extension/smsto/smsto/order', true, 1);
+		$this->model_setting_event->addEvent(
+			[
+				'code' => 'smsto_order_alert',
+				'description' => 'SMSto order alert',
+				'trigger' => 'catalog/model/checkout/order/addHistory/before',
+				'action' => 'extension/smsto/smsto/order',
+				'status' => true,
+				'sort_order' => 1
+			]
+		);
 
 		// Fix permissions
 		$this->load->model('user/user_group');
@@ -78,7 +87,7 @@ class Settings extends \Opencart\System\Engine\Controller
 		$this->model_user_user_group->addPermission($this->user->getGroupId(), 'modify', 'extension/smsto/smsto/send');
 
 		// Add menu in left column
-		$path = __DIR__ . '/../../../../../admin/controller/common/column_left.php';
+		$path = DIR_APPLICATION . 'controller/common/column_left.php';
 		$search = 'return $this->load->view(\'common/column_left\', $data);';
 		$replace = '
 		// SMSto
@@ -97,7 +106,7 @@ class Settings extends \Opencart\System\Engine\Controller
 		}
 
 		// Add button send from customer.twig
-		$path = __DIR__ . '/../../../../../admin/view/template/customer/customer.twig';
+		$path = DIR_APPLICATION . 'view/template/customer/customer.twig';
 		$search = '<div class="float-end">';
 		$replace = '
 		<div class="float-end">
@@ -108,7 +117,7 @@ class Settings extends \Opencart\System\Engine\Controller
 		}
 
 		// Add js send from customer.twig
-		$path = __DIR__ . '/../../../../../admin/view/template/customer/customer.twig';
+		$path = DIR_APPLICATION . 'view/template/customer/customer.twig';
 		$search = '//--></script>';
 		$replace = '
 		$(\'#button-smsto\').on(\'click\', function() {
@@ -153,7 +162,7 @@ class Settings extends \Opencart\System\Engine\Controller
 		$this->model_user_user_group->removePermission($this->user->getGroupId(), 'modify', 'extension/smsto/smsto/send');
 
 		// Remove menu in left column
-		$path = __DIR__ . '/../../../../../admin/controller/common/column_left.php';
+		$path = DIR_APPLICATION . 'controller/common/column_left.php';
 		$replace = 'return $this->load->view(\'common/column_left\', $data);';
 		$search = '
 		// SMSto
@@ -172,7 +181,7 @@ class Settings extends \Opencart\System\Engine\Controller
 		}
 
 		// Remove button send from customer.twig
-		$path = __DIR__ . '/../../../../../admin/view/template/customer/customer.twig';
+		$path = DIR_APPLICATION . 'view/template/customer/customer.twig';
 		$replace = '<div class="float-end">';
 		$search = '
 		<div class="float-end">
@@ -182,8 +191,8 @@ class Settings extends \Opencart\System\Engine\Controller
 			$this->replaceInFile($search, $replace, $path);
 		}
 
-		// Remove js send from customer.twig 
-		$path = __DIR__ . '/../../../../../admin/view/template/customer/customer.twig';
+		// Remove js send from customer.twig
+		$path = DIR_APPLICATION . 'view/template/customer/customer.twig';
 		$replace = '//--></script>';
 		$search = '
 		$(\'#button-smsto\').on(\'click\', function() {
