@@ -1,1 +1,11 @@
-smsto.ocmod.zip
+*
+!.gitignore
+!build.sh
+!LICENSE.txt
+!README.md
+
+!.devcontainer/
+!.devcontainer/**
+
+!smsto/
+!smsto/**
