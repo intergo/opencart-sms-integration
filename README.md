@@ -7,7 +7,7 @@ Detailed documentation: https://intergo.atlassian.net/wiki/spaces/WOBS/pages/224
 
 ### Compatibility
 
-OpenCart Version 4.0.0.0
+OpenCart Version 4.0.2.2
 
 ### How to build
 
