@@ -244,7 +244,7 @@ class Order extends \Opencart\System\Engine\Controller
 
                 $option_data[] = [
                     'name'  => $order_option['name'],
-                    'value' => (utf8_strlen($value) > 20 ? utf8_substr($value, 0, 20) . '..' : $value)
+                    'value' => (oc_strlen($value) > 20 ? oc_substr($value, 0, 20) . '..' : $value)
                 ];
             }
 
